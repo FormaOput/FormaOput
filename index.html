@@ -117,7 +117,9 @@
         </button>
     </form>
 
-       <script>
+       
+       
+    <script>
         const tg = window.Telegram.WebApp;
         tg.ready();
         tg.expand();
@@ -128,19 +130,16 @@
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            // Розрахунок площі
             const h = parseFloat(document.getElementById('height').value);
             const w = parseFloat(document.getElementById('width').value);
             const c = parseInt(document.getElementById('count').value);
             const area = ((h * w) / 1000000) * c;
 
-            // Збір Telegram Chat ID
             let chatId = "Невідомо";
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 chatId = tg.initDataUnsafe.user.id.toString();
             }
 
-            // Формування пакету даних для відправки
             const formData = {
                 chat_id: chatId,
                 zkz: document.getElementById('zkz').value,
@@ -156,16 +155,15 @@
                 holes: document.getElementById('holes').value
             };
 
-            // Анімація головної кнопки Telegram
             tg.MainButton.setText("Надсилання замовлення...");
             tg.MainButton.show();
 
             try {
-                // Відправка даних у Google Таблицю
+                // Змінено тип контенту для обходу CORS-блокування браузерів
                 await fetch(WEB_APP_URL, {
                     method: 'POST',
                     mode: 'no-cors', 
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(formData)
                 });
 
