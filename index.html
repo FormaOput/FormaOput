@@ -213,10 +213,33 @@
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
 
-            let chatId = "Невідомо";
-            if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-                chatId = tg.initDataUnsafe.user.id.toString();
+           // План А: Спробувати взяти ID з Telegram WebApp (мобільний додаток / десктоп)
+    let chatId = "Невідомо";
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+        chatId = tg.initDataUnsafe.user.id.toString();
+    } 
+
+    // План Б (Додатковий для Web-Telegram): Якщо План А не спрацював, дістаємо ID з сирих даних initData
+    if (chatId === "Невідомо" && tg.initData) {
+        try {
+            const searchParams = new URLSearchParams(tg.initData);
+            const userParam = searchParams.get('user');
+            if (userParam) {
+                const userData = JSON.parse(userParam);
+                if (userData && userData.id) {
+                    chatId = userData.id.toString();
+                }
             }
+        } catch (e) {
+            console.error("Не вдалося розпарсити initData:", e);
+        }
+    }
+
+    // План В: Якщо ID все одно не прийшов, беремо його з параметрів самого URL сайту
+    if (chatId === "Невідомо") {
+        const urlParams = new URLSearchParams(window.location.search);
+        chatId = urlParams.get('chat_id') || "Web-Interface";
+    }
 
             const items = [];
             const rows = itemsContainer.querySelectorAll('.item-row');
