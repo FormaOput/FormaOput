@@ -98,7 +98,7 @@
             
              <div>
                 <label class="block text-sm font-medium text-gray-600">Декор фасаду</label>
-                <select id="decor" required class="w-full mt-1 p-2 border rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
+                <select required class="field-decor w-full mt-1 p-2 border rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
                     <option value="" disabled selected>-- Оберіть декор фасаду --</option>
                     <option value="80790851 - Фасад Kaseta МДФ-18 білий мат Р001 під замовлення">80790851 - Фасад Kaseta МДФ-18 білий мат Р001 під замовлення</option>
                     <option value="80790852 - Фасад Kaseta МДФ-18 кремовий мат Р002 під замовлення">80790852 - Фасад Kaseta МДФ-18 кремовий мат Р002 під замовлення</option>
@@ -107,11 +107,11 @@
                     <option value="80790855 - Фасад Kaseta МДФ-18 світло-коричневий мат Р008 під замовлення">80790855 - Фасад Kaseta МДФ-18 світло-коричневий мат Р008 під замовлення</option>
                     <option value="80790856 - Фасад Kaseta МДФ-18 м'ягкий мат Р010 під замовлення">80790856 - Фасад Kaseta МДФ-18 м'ягкий мат Р010 під замовлення</option>
                     <option value="80790857 - Фасад Kaseta МДФ-18 білий глянєць Р100 під замовлення">80790857 - ... білий глянєць Р100 під замовлення</option>
-                    <option value="80790858 - Фасад Kaseta кремовий глянєць Р102 під замовлення">80790858 - ... кремовий глянєць Р102 під замовлення</option>
-                    <option value="80790859 - Фасад Kaseta антрацит глянєць Р110 під замовлення">80790859 - ... антрацит глянєць Р110 під замовлення</option>
-                    <option value="80790860 - Фасад Kaseta світло сірий глянєць Р116 під замовлення">80790860 - ... світло сірий глянєць Р116 під замовлення</option>
-                    <option value="80790861 - Фасад Kaseta скол світло-сірий мат Р253 під замовлення">80790861 - ... скол світло-сірий мат Р253 під замовлення</option>
-                    <option value="80790862 - Фасад Kaseta скол сірий мат Р254 під замовлення">80790862 - ... скол сірий мат Р254 під замовлення</option>
+                    <option value="80790858 - Фасад Kaseta кремовий глянєць Р102">80790858 - ... кремовий глянєць Р102 під замовлення</option>
+                    <option value="80790859 - Фасад Kaseta антрацит глянєць Р110">80790859 - ... антрацит глянєць Р110 під замовлення</option>
+                    <option value="80790860 - Фасад Kaseta світло сірий глянєць Р116">80790860 - ... світло сірий глянєць Р116 під замовлення</option>
+                    <option value="80790861 - Фасад Kaseta скол світло-сірий мат Р253">80790861 - ... скол світло-сірий мат Р253 під замовлення</option>
+                    <option value="80790862 - Фасад Kaseta скол сірий мат Р254">80790862 - ... скол сірий мат Р254 під замовлення</option>
                 </select>
             </div>
             
@@ -197,32 +197,24 @@
             totalAreaSpan.textContent = totalArea.toFixed(3);
         }
 
-        // --- ОНОВЛЕНЕ ПРЕВ'Ю КРОМКИ (Завантажує окрему фотку від e1.jpg до e16.jpg) ---
         function handleEdgeChange(selectElement, container) {
             const val = selectElement.value;
             const img = container.querySelector('img');
-            
             if (!val) {
                 container.style.display = 'none';
                 return;
             }
-
-            // Шлях до окремої картинки типу: e1.jpg, e2.jpg ... e16.jpg
             img.src = `e${val}.jpg`; 
             container.style.display = 'block';
         }
 
-        // --- ОНОВЛЕНЕ ПРЕВ'Ю ОТВОРІВ (Завантажує окрему фотку від h0.jpg до h4.jpg) ---
         function handleHolesChange(selectElement, container) {
             const val = selectElement.value;
             const img = container.querySelector('img');
-            
             if (val === "" || val === null) {
                 container.style.display = 'none';
                 return;
             }
-
-            // Шлях до окремої картинки типу: h0.jpg, h1.jpg ... h4.jpg
             img.src = `h${val}.jpg`; 
             container.style.display = 'block';
         }
@@ -242,14 +234,12 @@
                 input.addEventListener('input', calculateTotalArea);
             });
 
-            // Слухач для Кромки
             const edgeSelect = clone.querySelector('.field-edge');
             const edgeContainer = clone.querySelector('.edge-img-container');
             edgeSelect.addEventListener('change', () => {
                 handleEdgeChange(edgeSelect, edgeContainer);
             });
 
-            // Слухач для Отворів
             const holesSelect = clone.querySelector('.field-holes');
             const holesContainer = clone.querySelector('.holes-img-container');
             holesSelect.addEventListener('change', () => {
