@@ -99,24 +99,7 @@
             <div>
                 <label class="block text-sm font-medium text-gray-600">Декор фасаду</label>
                 <select required class="field-decor w-full mt-1 p-2 border rounded-lg bg-gray-50 focus:ring-2 focus:ring-blue-500 outline-none">
-                    
-                    <option value="" disabled selected>-- Оберіть декор фасаду --</option>
-                    <option value="80790851 - Фасад Kaseta МДФ-18 білий мат Р001 під замовлення">80790851 - Фасад Kaseta МДФ-18 білий мат Р001 під замовлення</option>
-                    <option value="80790852 - Фасад Kaseta МДФ-18 кремовий мат Р002 під замовлення">80790852 - Фасад Kaseta МДФ-18 кремовий мат Р002 під замовлення</option>
-                    <option value="80790853 - Фасад Kaseta МДФ-18 сірий шторм мат Р004 під замовлення">80790853 - Фасад Kaseta МДФ-18 сірий шторм мат Р004 під замовлення</option>
-                    <option value="80790854 - Фасад Kaseta МДФ-18 новий сірий мат Р005 під замовлення">80790854 - Фасад Kaseta МДФ-18 новий сірий мат Р005 під замовлення</option>
-                    <option value="80790855 - Фасад Kaseta МДФ-18 світло-коричневий мат Р008 під замовлення">80790855 - Фасад Kaseta МДФ-18 світло-коричневий мат Р008 під замовлення</option>
-                    <option value="80790856 - Фасад Kaseta МДФ-18 м'ягкий мат Р010 під замовлення">80790856 - Фасад Kaseta МДФ-18 м'ягкий мат Р010 під замовлення</option>
-                    <option value="80790857 - Фасад Kaseta МДФ-18 білий глянєць Р100 під замовлення">80790857 - ... білий глянєць Р100 під замовлення</option>
-                    <option value="80790858 - Фасад Kaseta кремовий глянєць Р102 під замовлення">80790858 - ... кремовий глянєць Р102 під замовлення</option>
-                    <option value="80790859 - Фасад Kaseta антрацит глянєць Р110 під замовлення">80790859 - ... антрацит глянєць Р110 під замовлення</option>
-                    <option value="80790860 - Фасад Kaseta світло сірий глянєць Р116 під замовлення">80790860 - ... світло сірий глянєць Р116 під замовлення</option>
-                    <option value="80790861 - Фасад Kaseta скол світло-сірий мат Р253 під замовлення">80790861 - ... скол світло-сірий мат Р253 під замовлення</option>
-                    <option value="80790862 - Фасад Kaseta скол сірий мат Р254 під замовлення">80790862 - ... скол сірий мат Р254 під замовлення</option>
-                    
-                    
-                    
-                    
+                    <option value="" disabled selected>-- Завантаження декорів... --</option>
                 </select>
             </div>
             
@@ -188,6 +171,41 @@
         const itemTemplate = document.getElementById('itemTemplate');
         const totalAreaSpan = document.getElementById('totalArea');
 
+        // Глобальний масив для зберігання списку декорів
+        let globalDecors = [];
+
+        // Асинхронне завантаження списку декорів з Google Таблиці (через doGet)
+        async function loadDecors() {
+            try {
+                const response = await fetch(WEB_APP_URL);
+                const decors = await response.json();
+                
+                if (Array.isArray(decors)) {
+                    globalDecors = decors;
+                    // Оновлюємо випадаючі списки, які вже створені на екрані
+                    document.querySelectorAll('.field-decor').forEach(select => updateDecorOptions(select));
+                } else {
+                    console.error("Отримано некоректний формат даних декорів:", decors);
+                }
+            } catch (err) {
+                console.error("Помилка завантаження декорів з таблиці:", err);
+            }
+        }
+
+        // Заповнення конкретного select елемента отриманими декорами
+        function updateDecorOptions(selectElement) {
+            if (globalDecors.length === 0) {
+                selectElement.innerHTML = '<option value="" disabled selected>-- Не вдалося завантажити декори --</option>';
+                return;
+            }
+            
+            let optionsHtml = '<option value="" disabled selected>-- Оберіть декор фасаду --</option>';
+            globalDecors.forEach(decor => {
+                optionsHtml += `<option value="${decor}">${decor}</option>`;
+            });
+            selectElement.innerHTML = optionsHtml;
+        }
+
         function calculateTotalArea() {
             let totalArea = 0;
             const rows = itemsContainer.querySelectorAll('.item-row');
@@ -228,6 +246,10 @@
             const clone = itemTemplate.content.cloneNode(true);
             const row = clone.querySelector('.item-row');
             
+            // Наповнюємо селект поточними завантаженими декорами
+            const decorSelect = row.querySelector('.field-decor');
+            updateDecorOptions(decorSelect);
+
             const removeBtn = clone.querySelector('.remove-item-btn');
             removeBtn.addEventListener('click', () => {
                 row.remove();
@@ -267,13 +289,17 @@
             });
         }
 
+        // Ініціалізація першого рядка при запуску форми
         addItemRow();
         addItemBtn.addEventListener('click', addItemRow);
 
+        // Запуск фонового підвантаження декорів з таблиці
+        loadDecors();
+
+        // ОБРОБКА ВІДПРАВКИ ФОРМИ
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
             
-            // --- ОНОВЛЕНИЙ НАДІЙНИЙ ЗБІР CHAT_ID ---
             let chatId = "Web-Interface";
 
             if (window.Telegram && window.Telegram.WebApp && window.Telegram.WebApp.initDataUnsafe && window.Telegram.WebApp.initDataUnsafe.user) {
@@ -295,7 +321,6 @@
                 const urlChatId = urlParams.get('chat_id');
                 if (urlChatId) chatId = urlChatId;
             }
-            // ----------------------------------------
 
             const items = [];
             const rows = itemsContainer.querySelectorAll('.item-row');
