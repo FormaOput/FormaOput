@@ -21,6 +21,19 @@
         label {
             color: #374151 !important;
         }
+
+        /* Нові компактні стилі для контейнерів точних картинок */
+        .preview-img-container {
+            width: 46px;
+            height: 46px;
+            border: 2px solid #2563eb;
+            display: none; /* Ховаємо, поки нічого не обрано */
+        }
+        .preview-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body class="p-4 max-w-2xl mx-auto pb-24">
@@ -29,7 +42,7 @@
 
     <form id="orderForm" class="space-y-4">
         <div class="bg-white p-4 rounded-xl shadow-sm space-y-3">
-            <h3 class="font-semibold text-gray-700 border-b pb-1">1. Contact Information</h3>
+            <h3 class="font-semibold text-gray-700 border-b pb-1">1. Контактна інформація</h3>
             <div class="grid grid-cols-2 gap-2">
                 <div class="col-span-2">
                     <label class="block text-sm font-medium">ПІБ</label>
@@ -52,9 +65,7 @@
 
         <div class="bg-white p-4 rounded-xl shadow-sm space-y-3">
             <h3 class="font-semibold text-gray-700 border-b pb-1">2. Перелік фасадів</h3>
-            
             <div id="itemsContainer" class="space-y-4 divide-y divide-gray-200"></div>
-
             <button type="button" id="addItemBtn" class="mt-2 w-full text-sm font-medium text-blue-600 hover:text-blue-700 p-2 border border-dashed border-blue-300 rounded-lg bg-blue-50 transition text-center cursor-pointer">
                 + Додати ще один фасад/розмір
             </button>
@@ -91,16 +102,16 @@
                     <option value="" disabled selected>-- Оберіть декор фасаду --</option>
                     <option value="80790851 - Фасад Kaseta МДФ-18 білий мат Р001 під замовлення">80790851 - Фасад Kaseta МДФ-18 білий мат Р001 під замовлення</option>
                     <option value="80790852 - Фасад Kaseta МДФ-18 кремовий мат Р002">80790852 - ... кремовий мат Р002</option>
-                    <option value="80790853 - Фасад Kaseta МДФ-18 сірий шторм мат Р004">80790853 - ... сірий шторм мат Р004</option>
-                    <option value="80790854 - Фасад Kaseta новий сірий мат Р005">80790854 - ... новий сірий мат Р005</option>
-                    <option value="80790855 - Фасад Kaseta світло-коричневий мат Р008">80790855 - ... світло-коричневий мат Р008</option>
-                    <option value="80790856 - Фасад Kaseta м'ягкий мат Р010">80790856 - ... м'ягкий мат Р010</option>
-                    <option value="80790857 - Фасад Kaseta білий глянєць Р100">80790857 - ... білий глянєць Р100</option>
-                    <option value="80790858 - Фасад Kaseta кремовий глянєць Р102">80790858 - ... кремовий глянєць Р102</option>
-                    <option value="80790859 - Фасад Kaseta антрацит глянєць Р110">80790859 - ... антрацит глянєць Р110</option>
-                    <option value="80790860 - Фасад Kaseta світло сірий глянєць Р116">80790860 - ... світло сірий глянєць Р116</option>
-                    <option value="80790861 - Фасад Kaseta скол світло-сірий мат Р253">80790861 - ... скол світло-сірий мат Р253</option>
-                    <option value="80790862 - Фасад Kaseta скол сірий мат Р254">80790862 - ... скол сірий мат Р254</option>
+                    <option value="80790853 - ...">80790853 - ... сірий шторм мат Р004</option>
+                    <option value="80790854 - ...">80790854 - ... новий сірий мат Р005</option>
+                    <option value="80790855 - ...">80790855 - ... світло-коричневий мат Р008</option>
+                    <option value="80790856 - ...">80790856 - ... м'ягкий мат Р010</option>
+                    <option value="80790857 - ...">80790857 - ... білий глянєць Р100</option>
+                    <option value="80790858 - ...">80790858 - ... кремовий глянєць Р102</option>
+                    <option value="80790859 - ...">80790859 - ... антрацит глянєць Р110</option>
+                    <option value="80790860 - ...">80790860 - ... світло сірий глянєць Р116</option>
+                    <option value="80790861 - ...">80790861 - ... скол світло-сірий мат Р253</option>
+                    <option value="80790862 - ...">80790862 - ... скол сірий мат Р254</option>
                 </select>
             </div>
             
@@ -119,31 +130,42 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-2 gap-2 pt-1">
-                <div>
-                    <label class="block text-xs font-medium mb-1">Тип крайкування</label>
-                    <img src="1.JPG" alt="Типи крайкування" class="w-full h-auto rounded border mb-1 block">
-                    <select required class="field-edge w-full p-2 border text-sm rounded-lg outline-none">
-                        <option value="" disabled selected>-- Кромка --</option>
-                        <option value="1">Тип 1</option><option value="2">Тип 2</option><option value="3">Тип 3</option>
-                        <option value="4">Тип 4</option><option value="5">Тип 5</option><option value="6">Тип 6</option>
-                        <option value="7">Тип 7</option><option value="8">Тип 8</option><option value="9">Тип 9</option>
-                        <option value="10">Тип 10</option><option value="11">Тип 11</option><option value="12">Тип 12</option>
-                        <option value="13">Тип 13</option><option value="14">Тип 14</option><option value="15">Тип 15</option>
-                        <option value="16">Тип 16</option>
-                    </select>
+            <div class="grid grid-cols-2 gap-4 pt-1">
+                <div class="space-y-2">
+                    <label class="block text-xs font-medium">Тип крайкування</label>
+                    <div class="flex gap-2 items-center">
+                        <select required class="field-edge w-full p-2 border text-sm rounded-lg outline-none">
+                            <option value="" disabled selected>-- Кромка --</option>
+                            <option value="1">Тип 1</option><option value="2">Тип 2</option><option value="3">Тип 3</option>
+                            <option value="4">Тип 4</option><option value="5">Тип 5</option><option value="6">Тип 6</option>
+                            <option value="7">Тип 7</option><option value="8">Тип 8</option><option value="9">Тип 9</option>
+                            <option value="10">Тип 10</option><option value="11">Тип 11</option><option value="12">Тип 12</option>
+                            <option value="13">Тип 13</option><option value="14">Тип 14</option><option value="15">Тип 15</option>
+                            <option value="16">Тип 16</option>
+                        </select>
+                        <div class="edge-img-container preview-img-container shrink-0 rounded-lg shadow-sm overflow-hidden">
+                            <img src="" alt="Кромка">
+                        </div>
+                    </div>
+                    <img src="1.JPG" alt="Типи крайкування" class="w-full h-auto rounded border block mt-1">
                 </div>
-                <div>
-                    <label class="block text-xs font-medium mb-1">Отвори під завіси</label>
-                    <img src="2.JPG" alt="Сторона отворів під завіси" class="w-full h-auto rounded border mb-1 block">
-                    <select required class="field-holes w-full p-2 border text-sm rounded-lg outline-none">
-                        <option value="" disabled selected>-- Завіси --</option>
-                        <option value="0">0 — Без отворів</option>
-                        <option value="1">1 — Отвори вертикально</option>
-                        <option value="2">2 — Отвори вертикально</option>
-                        <option value="3">3 — Отвори горизонтально</option>
-                        <option value="4">4 — Отвори горизонтально</option>
-                    </select>
+
+                <div class="space-y-2">
+                    <label class="block text-xs font-medium">Отвори під завіси</label>
+                    <div class="flex gap-2 items-center">
+                        <select required class="field-holes w-full p-2 border text-sm rounded-lg outline-none">
+                            <option value="" disabled selected>-- Завіси --</option>
+                            <option value="0">0 — Без отворів</option>
+                            <option value="1">1 — Отвори вертикально</option>
+                            <option value="2">2 — Отвори вертикально</option>
+                            <option value="3">3 — Отвори горизонтально</option>
+                            <option value="4">4 — Отвори горизонтально</option>
+                        </select>
+                        <div class="holes-img-container preview-img-container shrink-0 rounded-lg shadow-sm overflow-hidden">
+                            <img src="" alt="Завіси">
+                        </div>
+                    </div>
+                    <img src="2.JPG" alt="Сторона отворів під завіси" class="w-full h-auto rounded border block mt-1">
                 </div>
             </div>
         </div>
@@ -164,18 +186,45 @@
         function calculateTotalArea() {
             let totalArea = 0;
             const rows = itemsContainer.querySelectorAll('.item-row');
-            
             rows.forEach(row => {
                 const h = parseFloat(row.querySelector('.field-height').value) || 0;
                 const w = parseFloat(row.querySelector('.field-width').value) || 0;
                 const c = parseInt(row.querySelector('.field-count').value) || 0;
-                
                 if (h > 0 && w > 0 && c > 0) {
                     totalArea += ((h * w) / 1000000) * c;
                 }
             });
-            
             totalAreaSpan.textContent = totalArea.toFixed(3);
+        }
+
+        // --- ОНОВЛЕНЕ ПРЕВ'Ю КРОМКИ (Завантажує окрему фотку від e1.jpg до e16.jpg) ---
+        function handleEdgeChange(selectElement, container) {
+            const val = selectElement.value;
+            const img = container.querySelector('img');
+            
+            if (!val) {
+                container.style.display = 'none';
+                return;
+            }
+
+            // Шлях до окремої картинки типу: e1.jpg, e2.jpg ... e16.jpg
+            img.src = `e${val}.jpg`; 
+            container.style.display = 'block';
+        }
+
+        // --- ОНОВЛЕНЕ ПРЕВ'Ю ОТВОРІВ (Завантажує окрему фотку від h0.jpg до h4.jpg) ---
+        function handleHolesChange(selectElement, container) {
+            const val = selectElement.value;
+            const img = container.querySelector('img');
+            
+            if (val === "" || val === null) {
+                container.style.display = 'none';
+                return;
+            }
+
+            // Шлях до окремої картинки типу: h0.jpg, h1.jpg ... h4.jpg
+            img.src = `h${val}.jpg`; 
+            container.style.display = 'block';
         }
 
         function addItemRow() {
@@ -191,6 +240,20 @@
 
             clone.querySelectorAll('.field-height, .field-width, .field-count').forEach(input => {
                 input.addEventListener('input', calculateTotalArea);
+            });
+
+            // Слухач для Кромки
+            const edgeSelect = clone.querySelector('.field-edge');
+            const edgeContainer = clone.querySelector('.edge-img-container');
+            edgeSelect.addEventListener('change', () => {
+                handleEdgeChange(edgeSelect, edgeContainer);
+            });
+
+            // Слухач для Отворів
+            const holesSelect = clone.querySelector('.field-holes');
+            const holesContainer = clone.querySelector('.holes-img-container');
+            holesSelect.addEventListener('change', () => {
+                handleHolesChange(holesSelect, holesContainer);
             });
 
             itemsContainer.appendChild(clone);
@@ -214,28 +277,20 @@
 
         document.getElementById('orderForm').addEventListener('submit', async (e) => {
             e.preventDefault();
-
-            // Потрійний план пошуку Chat ID
             let chatId = "Невідомо";
             if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
                 chatId = tg.initDataUnsafe.user.id.toString();
             } 
-
             if (chatId === "Невідомо" && tg.initData) {
                 try {
                     const searchParams = new URLSearchParams(tg.initData);
                     const userParam = searchParams.get('user');
                     if (userParam) {
                         const userData = JSON.parse(userParam);
-                        if (userData && userData.id) {
-                            chatId = userData.id.toString();
-                        }
+                        if (userData && userData.id) chatId = userData.id.toString();
                     }
-                } catch (err) {
-                    console.error("Не вдалося розпарсити initData:", err);
-                }
+                } catch (err) { console.error(err); }
             }
-
             if (chatId === "Невідомо") {
                 const urlParams = new URLSearchParams(window.location.search);
                 chatId = urlParams.get('chat_id') || "Web-Interface";
@@ -243,13 +298,11 @@
 
             const items = [];
             const rows = itemsContainer.querySelectorAll('.item-row');
-            
             rows.forEach(row => {
                 const h = parseFloat(row.querySelector('.field-height').value);
                 const w = parseFloat(row.querySelector('.field-width').value);
                 const c = parseInt(row.querySelector('.field-count').value);
                 const area = ((h * w) / 1000000) * c;
-
                 items.push({
                     decor: row.querySelector('.field-decor').value,
                     height: h,
@@ -262,13 +315,11 @@
             });
 
             const finalData = {
-                chat_id: chatId,
-                zkz: "", // Поле видалено з інтерфейсу, відправляємо порожній рядок
+                chat_id: chatId, zkz: "", 
                 pib: document.getElementById('pib').value,
                 phone: document.getElementById('phone').value,
                 email: document.getElementById('email').value,
-                total_area: totalAreaSpan.textContent,
-                items: items
+                total_area: totalAreaSpan.textContent, items: items
             };
 
             const submitBtn = e.target.querySelector('button[type="submit"]');
@@ -277,13 +328,10 @@
 
             try {
                 await fetch(WEB_APP_URL, {
-                    method: 'POST',
-                    mode: 'no-cors', 
+                    method: 'POST', mode: 'no-cors', 
                     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
                     body: JSON.stringify(finalData)
                 });
-
-                // Показуємо модальне вікно успіху замість різкого tg.close()
                 document.getElementById('successScreen').classList.remove('hidden');
             } catch (err) {
                 tg.showAlert("Помилка відправки: " + err);
